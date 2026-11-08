@@ -1,0 +1,479 @@
+/* ==========================================================================
+   Visual Writing Plugin Styles (Obsidian Canvas & Theme Variable Native)
+   ========================================================================== */
+
+.visual-writing-view {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background-color: var(--background-primary);
+	color: var(--text-normal);
+	overflow: hidden;
+	user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Top Toolbar & Zoom Controls
+   -------------------------------------------------------------------------- */
+.vw-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px 14px;
+	background-color: var(--background-secondary);
+	border-bottom: 1px solid var(--background-modifier-border);
+	flex-shrink: 0;
+	z-index: 10;
+}
+
+.vw-toolbar-left {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.vw-toolbar-icon {
+	display: inline-flex;
+	align-items: center;
+	color: var(--interactive-accent);
+}
+
+.vw-toolbar-title {
+	font-weight: 600;
+	font-size: var(--font-ui-small);
+	color: var(--text-normal);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.vw-toolbar-actions {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-shrink: 0;
+	flex-wrap: wrap;
+}
+
+.vw-zoom-controls {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	background-color: var(--background-primary);
+	padding: 2px;
+	border-radius: var(--radius-s, 6px);
+	border: 1px solid var(--background-modifier-border);
+}
+
+.vw-zoom-controls .vw-toolbar-btn {
+	border: none;
+	padding: 3px 6px;
+}
+
+.vw-zoom-readout {
+	min-width: 48px;
+	justify-content: center;
+	font-family: var(--font-monospace);
+	font-size: 11px;
+}
+
+.vw-toolbar-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 8px;
+	border-radius: var(--radius-s, 4px);
+	font-size: var(--font-ui-smaller);
+	color: var(--text-normal);
+	background-color: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	cursor: pointer;
+	transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.vw-toolbar-btn:hover {
+	background-color: var(--background-modifier-hover);
+	border-color: var(--interactive-accent);
+}
+
+.vw-toolbar-btn.is-active {
+	border-color: var(--interactive-accent);
+	color: var(--text-accent);
+}
+
+.vw-btn-icon {
+	display: inline-flex;
+	align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Infinite Canvas Viewport & Dot Grid (Obsidian Canvas Style)
+   -------------------------------------------------------------------------- */
+.vw-canvas-viewport {
+	position: relative;
+	flex: 1;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	cursor: grab;
+	outline: none;
+	background-color: var(--background-primary-alt, var(--background-primary));
+	background-image: radial-gradient(
+		var(--background-modifier-border-hover, rgba(128, 128, 128, 0.28)) 1.25px,
+		transparent 1.25px
+	);
+	background-size: 24px 24px;
+}
+
+.vw-canvas-viewport.is-grid-hidden {
+	background-image: none;
+}
+
+.vw-canvas-viewport.is-panning,
+.vw-canvas-viewport.is-space-pan {
+	cursor: grabbing;
+}
+
+.vw-canvas-world {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	transform-origin: 0 0;
+	will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   SVG Connector Curves (Left-to-Right Parent -> Child & Vertical Siblings)
+   -------------------------------------------------------------------------- */
+.vw-connections-svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	overflow: visible;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.vw-connector-path {
+	fill: none;
+	stroke-linecap: round;
+}
+
+.vw-parent-child-path {
+	stroke: var(--interactive-accent);
+	stroke-width: 2.2px;
+	opacity: 0.72;
+}
+
+.vw-sibling-flow-path {
+	stroke: var(--background-modifier-border-hover, var(--text-faint));
+	stroke-width: 1.5px;
+	stroke-dasharray: 5 5;
+	opacity: 0.65;
+}
+
+.vw-connector-dot {
+	fill: var(--interactive-accent);
+	opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   Cards Layer & Empty State
+   -------------------------------------------------------------------------- */
+.vw-cards-layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+
+.vw-empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	width: 340px;
+	padding: 36px 24px;
+	text-align: center;
+	color: var(--text-muted);
+	background-color: var(--background-secondary);
+	border: 1px dashed var(--background-modifier-border);
+	border-radius: var(--radius-m, 8px);
+}
+
+.vw-empty-icon svg {
+	width: 32px;
+	height: 32px;
+	stroke-width: 1.5;
+	color: var(--text-faint);
+}
+
+.vw-empty-text {
+	font-size: var(--font-ui-medium);
+}
+
+/* --------------------------------------------------------------------------
+   Visual Cards on Canvas
+   -------------------------------------------------------------------------- */
+.vw-card {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--background-primary);
+	border: 1.5px solid var(--background-modifier-border);
+	border-radius: var(--radius-m, 10px);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+	transition: border-color 120ms ease, box-shadow 120ms ease;
+	cursor: default;
+	user-select: text;
+}
+
+.vw-card:hover {
+	border-color: var(--background-modifier-border-hover);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+}
+
+.vw-card.is-focused,
+.vw-card.is-editing {
+	border-color: var(--interactive-accent);
+	box-shadow: 0 0 0 2px rgba(var(--mono-rgb-100), 0.05),
+		0 8px 24px rgba(0, 0, 0, 0.18);
+	z-index: 20;
+}
+
+/* Card Header (Draggable anywhere on canvas) */
+.vw-card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 6px;
+	padding: 6px 10px;
+	background-color: var(--background-secondary);
+	border-bottom: 1px solid var(--background-modifier-border);
+	border-top-left-radius: calc(var(--radius-m, 10px) - 1px);
+	border-top-right-radius: calc(var(--radius-m, 10px) - 1px);
+	cursor: grab;
+	user-select: none;
+}
+
+.vw-card-header:active {
+	cursor: grabbing;
+}
+
+.vw-card-header-left {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.vw-drag-handle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--text-faint);
+	padding: 2px;
+	border-radius: var(--radius-s, 4px);
+	flex-shrink: 0;
+}
+
+.vw-card-header:hover .vw-drag-handle {
+	color: var(--text-normal);
+}
+
+.vw-block-id {
+	display: none;
+}
+
+.vw-depth-pill {
+	font-family: var(--font-monospace);
+	font-size: 10px;
+	font-weight: 600;
+	color: var(--text-accent);
+	background-color: var(--background-primary);
+	padding: 2px 7px;
+	border-radius: 999px;
+	border: 1px solid var(--background-modifier-border);
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.vw-bullet-indent-pill {
+	font-family: var(--font-monospace);
+	font-size: 10px;
+	font-weight: 600;
+	color: var(--text-on-accent);
+	background-color: var(--interactive-accent);
+	padding: 2px 8px;
+	border-radius: 999px;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+/* Action Controls */
+.vw-card-actions {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	flex-shrink: 0;
+	opacity: 0.72;
+	transition: opacity 120ms ease;
+}
+
+.vw-card:hover .vw-card-actions,
+.vw-card.is-focused .vw-card-actions {
+	opacity: 1;
+}
+
+.vw-action-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+	padding: 2px 6px;
+	font-size: 11px;
+	color: var(--text-muted);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--radius-s, 4px);
+	cursor: pointer;
+}
+
+.vw-action-btn:hover {
+	color: var(--text-normal);
+	background-color: var(--background-modifier-hover);
+	border-color: var(--background-modifier-border);
+}
+
+.vw-action-btn-labeled {
+	background-color: var(--background-primary);
+	border-color: var(--background-modifier-border);
+}
+
+.vw-action-icon svg {
+	width: 12px;
+	height: 12px;
+}
+
+.vw-action-delete:hover {
+	color: var(--text-error);
+	background-color: rgba(255, 70, 70, 0.12);
+	border-color: var(--text-error);
+}
+
+/* --------------------------------------------------------------------------
+   Card Body: Standard Obsidian Note Editor & Seamless Rendered View
+   -------------------------------------------------------------------------- */
+.vw-card-body {
+	padding: 12px 14px 14px 14px;
+}
+
+.vw-card-rendered {
+	min-height: 60px;
+	color: var(--text-normal);
+	font-family: var(--font-text);
+	font-size: var(--font-text-size, 15px);
+	line-height: var(--line-height-normal, 1.6);
+	cursor: text;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
+
+.vw-card-rendered > :first-child {
+	margin-top: 0;
+}
+
+.vw-card-rendered > :last-child {
+	margin-bottom: 0;
+}
+
+.vw-card-rendered img,
+.vw-card-rendered .internal-embed img {
+	max-width: 100%;
+	height: auto;
+	border-radius: var(--radius-s, 6px);
+	display: block;
+	margin: 8px 0;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.vw-card-rendered pre {
+	padding: 8px 10px;
+	border-radius: var(--radius-s, 4px);
+	background-color: var(--code-background);
+	overflow-x: auto;
+}
+
+.vw-card-rendered blockquote {
+	margin: 6px 0;
+	padding-left: 12px;
+	border-left: 3px solid var(--interactive-accent);
+	color: var(--text-muted);
+}
+
+.vw-card-placeholder {
+	color: var(--text-faint);
+	font-style: italic;
+	user-select: none;
+	padding: 4px 0;
+}
+
+/* Clean Obsidian-like in-place editor (no split preview below) */
+.vw-card-textarea {
+	width: 100%;
+	min-height: 80px;
+	border: none;
+	outline: none;
+	resize: none;
+	overflow: hidden;
+	background: transparent;
+	color: var(--text-normal);
+	font-family: var(--font-text);
+	font-size: var(--font-text-size, 15px);
+	line-height: var(--line-height-normal, 1.6);
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.vw-card-textarea:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.vw-card-textarea::placeholder {
+	color: var(--text-faint);
+}
+
+/* --------------------------------------------------------------------------
+   Drag & Drop States on Canvas
+   -------------------------------------------------------------------------- */
+.vw-card.is-dragging {
+	opacity: 0.92;
+	border-color: var(--interactive-accent);
+	box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+	z-index: 50;
+}
+
+.vw-card.drop-before {
+	border-top: 4px solid var(--interactive-accent);
+}
+
+.vw-card.drop-after {
+	border-bottom: 4px solid var(--interactive-accent);
+}
+
+.vw-card.drop-inside {
+	border: 2px dashed var(--interactive-accent);
+	background-color: var(--background-modifier-hover);
+}
