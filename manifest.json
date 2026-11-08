@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"minAppVersion": "1.5.0",
 	"description": "Non-linear, visual writing and structural card rearrangement stored in plain Markdown files using hidden comments.",
-	"author": "Visual Writing",
+	"author": "Tim Dean",
 	"authorUrl": "",
 	"isDesktopOnly": false
 }

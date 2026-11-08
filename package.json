@@ -14,7 +14,7 @@
 		"outliner",
 		"cards"
 	],
-	"author": "Visual Writing",
+	"author": "Tim Dean",
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^20.11.0",
